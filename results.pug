@@ -1,0 +1,62 @@
+doctype html
+head
+  title Результаты
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(href='https://fonts.googleapis.com/css?family=Play&display=swap' rel='stylesheet')
+  link(href='css/main.css' type='text/css' rel='stylesheet')
+  script(src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js')
+  script(src='js/main.js' type='text/javascript')
+  script(src='https://kit.fontawesome.com/a36d2e9d22.js' crossorigin='anonymous')
+#head
+  include usermenu
+#content
+  div
+    -if(results.length > 0)
+      -if(selGroup && selTest)
+        h1 Результаты группы #{results[0].group} по тесту #{results[0].test}
+      -else if(selGroup)
+        h1 Результаты группы #{results[0].group}
+      -else if(selTest)
+        h1 Результаты по тесту #{results[0].test}
+      -else
+        h1 Результаты
+    -else
+        h1 Результаты
+    form#res(action='results' method='get')
+      select(name='group')
+        option(value='') Выбрать группу 
+        -if(groups.length > 0)
+          -for(var i = 0; i < groups.length; i++)
+            -if(groups[i] == selGroup)
+              option(value=groups[i] selected) #{groups[i]}
+            -else
+              option(value=groups[i]) #{groups[i]}
+      select(name='test')
+        option(value='') Выбрать тест 
+        -if(tests.length > 0)
+          -for(var i = 0; i < tests.length; i++)
+            -if(selTest == tests[i].id)
+              option(value=tests[i].id selected) #{tests[i].name}
+            -else
+              option(value=tests[i].id) #{tests[i].name}
+      button(type='submit') Выбрать
+    -if(results.length > 0)
+      table
+        thead
+          tr
+            th Студент
+            th Группа
+            th Тест
+            th Результат
+            th Максимум
+        tbody
+          -for(var i = 0; i < results.length; i++)
+            tr
+              td #{results[i].student}
+              td #{results[i].group}
+              td #{results[i].test}
+              td #{results[i].result}
+              td #{results[i].max}
+    -else
+      h3 Нет данных

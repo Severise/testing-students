@@ -1,0 +1,15 @@
+#error
+  -if(!access)
+    | Нет доступа
+  -if(error)
+    | DB error
+  -if(!edit)
+    | Нет доступа
+#success
+  -if(send)
+    | Отправлено
+  -if(edit)
+    | Тест изменен
+  -if(create)
+    | Тест создан
+

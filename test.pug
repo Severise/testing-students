@@ -1,0 +1,51 @@
+doctype html
+head
+  title #{test.name}
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(href='https://fonts.googleapis.com/css?family=Play&display=swap' rel='stylesheet')
+  script(src='https://kit.fontawesome.com/a36d2e9d22.js' crossorigin='anonymous')
+  link(href='css/main.css' type='text/css' rel='stylesheet')
+  script(src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js')
+  script(src='js/main.js' type='text/javascript')
+#head
+  #nav.numbers
+    ul
+      -for(var i = test.quests.length; i > 0; i--)
+        li=i
+  -if(preview)
+    include usermenu
+  -else
+    a(href='/menu')
+      #menu Назад
+#content
+  form(method='post')
+    h1 #{test.name}
+    -if(!preview)
+      h2 Заполните ваши данные
+      label(for='name') Имя
+      input(name='name' type='text' placeholder='name' required)
+      label(for='name') Фамилия
+      input(name='surname' type='text' placeholder='surname' required)
+      label(for='groups') Группа
+      input#group(name='group' type='number' placeholder='group' required)
+    -for(var i = 0; i < test.quests.length; i++)
+      .quest
+        h2 Вопрос #{i+1}
+        h3 #{test.quests[i].name}
+        div 
+          -for(var j = 0; j < test.quests[i].options.length; j++)
+            -if(test.quests[i].options.length == 1)
+              input(name="id"+test.quests[i].id type="text" placeholder="answer" required)
+            -else
+              -if(test.quests[i].amount == 1)
+                label 
+                  input(name="id"+test.quests[i].id type='radio' value=test.quests[i].options[j].name)
+                  | #{test.quests[i].options[j].name}
+              -else
+                label 
+                  input(name="id"+test.quests[i].id type='checkbox' value=test.quests[i].options[j].name)
+                  | #{test.quests[i].options[j].name}                
+         
+    -if(!preview)
+      button(type='submit') Отправить

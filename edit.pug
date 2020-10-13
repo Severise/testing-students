@@ -1,0 +1,67 @@
+doctype html
+head
+    title Редактирование теста
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet")
+    link(href="css/main.css" type="text/css" rel="stylesheet")
+    script(src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js")
+    script(src="js/main.js" type="text/javascript")
+    script(src="https://kit.fontawesome.com/a36d2e9d22.js" crossorigin="anonymous")
+#head
+  #tabs.numbers
+    ul
+      -for(var i = test.questions.length; i > 0; i--)
+        li #{i}
+      li -
+      li +
+  include usermenu
+#content
+  form#createTest(action="javascript:send()" method="post")
+    #fields
+      .field
+        label Название теста
+        input(name="test" type="text" autocomplete="off" required value=test.name class='id'+test.id)
+      .field
+        label Длительность
+        input(name="time" type="text" autocomplete="off" required value=test.time)
+      #ques
+        -for(var i = 0; i < test.questions.length; i++)
+          div(id='q'+(i+1) class='question')
+            label Вопрос #{i+1}
+            input(name="question" type="text" autocomplete="off" required value=test.questions[i].name)
+            -if(test.questions[i].options.length > 1)
+              .opt
+                label Варианты 
+                .left
+                  -for(var j = 0; j < test.questions[i].options.length; j+=2)
+                    input.option(type="text" autocomplete="off" value=test.questions[i].options[j].value)
+                    -if(test.questions[i].options[j].isAnswer)
+                      input(type="checkbox" checked)
+                    -else
+                      input(type="checkbox")
+                .right
+                  -for(var j = 1; j < test.questions[i].options.length; j+=2)
+                    input.option(name="option" type="text" autocomplete="off" value=test.questions[i].options[j].value)
+                    -if(test.questions[i].options[j].isAnswer)
+                      input(type="checkbox" checked)
+                    -else
+                      input(type="checkbox")
+                br
+              .ans
+                label Ответ
+            -if(test.questions[i].options.length == 1)
+              .opt(style="display: none;")
+                label Варианты
+                .left
+                  input.option(type="text" autocomplete="off")
+                  input(type="checkbox")
+                .right
+                  input.option(type="text" autocomplete="off")
+                  input(type="checkbox")
+              .ans(style="display: block;")
+                label Ответ
+                input(class="answer" type="text" autocomplete="off" required value=test.questions[i].options[0].value)
+            button.addOption(type="button") Добавить вариант
+            button.changeType(type="button") Изменить тип ответа
+      button(type="submit") Отправить

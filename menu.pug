@@ -1,0 +1,32 @@
+doctype html
+head
+  title Доступные тесты
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(href='https://fonts.googleapis.com/css?family=Play&display=swap' rel='stylesheet')
+  link(href='css/main.css' type='text/css' rel='stylesheet')
+  script(src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js')
+  script(src='js/main.js' type='text/javascript')
+  script(src='https://kit.fontawesome.com/a36d2e9d22.js' crossorigin='anonymous')
+#head
+  #menu
+    span Вход
+    span Закрыть
+#content
+  form#signForm(action='/login' method='post')
+    label Логин
+    input(name='login' type='text' placeholder='login')
+    label Пароль
+    input(name='password' type='password' placeholder='password')
+    button(type='submit') Войти
+  div
+    h1 Доступные тесты
+    -if(notests)
+      h3 Нет доступных тестов
+    -else
+      -for(var j = 0; j < owners.length; j++)
+        h2 #{owners[j]}
+        -for(var i = 0; i < tests.length; i++)
+          -if(tests[i].owner == owners[j])
+            h3 
+              a(href='test?id=' + tests[i].id) #{tests[i].name}

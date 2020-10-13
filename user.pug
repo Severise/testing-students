@@ -1,0 +1,64 @@
+doctype html
+head
+  title #{user.name}
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(href='https://fonts.googleapis.com/css?family=Play&display=swap' rel='stylesheet')
+  link(href='css/main.css' type='text/css' rel='stylesheet')
+  script(src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js')
+  script(src='js/main.js' type='text/javascript')
+  script(src='https://kit.fontawesome.com/a36d2e9d22.js' crossorigin='anonymous')
+#head
+  include usermenu
+#content
+  -if(tests.length > 0 && !others)
+    form#signForm(action='javascript:deleteTest()' method='post')
+      label
+        | Удалить тест 
+        span
+      input(type='text' name='id')
+      button(type='submit') Да
+      button(type='button') Нет
+  -else
+      form#signForm(action='javascript:clone()' method='post')
+        label
+          | Скопировать тест 
+          span
+        input(type='text' name='id')
+        button(type='submit') Да
+        button(type='button') Нет
+  div
+    -if(!others)
+      h1 Мои тесты
+      h2 
+        a(href='/create') Создать новый тест
+    -else
+      h1 Тесты
+    -if(tests.length > 0)
+      -for(var i = 0; i < tests.length; i++)
+        .test(id=tests[i].id)
+          h2 #{tests[i].name}
+          #tools
+            -if(!others)
+              a(href='edit?id='+tests[i].id)
+                i.far.fa-edit(title='edit')
+              a(href='/test?id='+tests[i].id+'&preview=true')
+                i.far.fa-eye(title='preview')
+              a(href='results?test='+tests[i].id)
+                i.fas.fa-poll-h(title='results')
+              -if(tests[i].enabled)
+                a.lock
+                  i.fas.fa-lock(title='lock')
+              -else
+                a.open
+                  i.fas.fa-lock-open(title='open')
+            
+              a.delete
+                i.far.fa-trash-alt(title='delete')
+            -else
+              a(href='/test?id='+tests[i].id+'&preview=true')
+                i.far.fa-eye(title='preview')
+              a.clone
+                i.far.fa-clone(title='clone')
+    -else
+      h2 Нет тестов

@@ -1,0 +1,45 @@
+doctype html
+head
+    title Создание теста
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet")
+    link(href="css/main.css" type="text/css" rel="stylesheet")
+    script(src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js")
+    script(src="js/main.js" type="text/javascript")
+    script(src="https://kit.fontawesome.com/a36d2e9d22.js" crossorigin="anonymous")
+#head
+  #tabs.numbers
+    ul
+      li.active 1
+      li -
+      li +
+  include usermenu
+#content
+  form#createTest(action="javascript:send()" method="post")
+    #fields
+      .field
+        label Название теста
+        input(name="test" type="text" autocomplete="off" required)
+      .field
+        label Длительность
+        input(name="time" type="text" autocomplete="off" required)
+      #ques
+        #q1.question.active
+          label Вопрос 1
+          input(name="question" type="text" autocomplete="off" required)
+          .opt
+            label Варианты
+            .left
+              input.option(type="text" autocomplete="off")
+              input(type="checkbox")
+            .right
+              input.option(type="text" autocomplete="off")
+              input(type="checkbox")
+            br
+          .ans
+            label Ответ
+            //- input(nlass="answer" type="text" autocomplete="off" required)
+          button.addOption(type="button") Добавить вариант
+          button.changeType(type="button") Изменить тип ответа
+      button(type="submit") Отправить
